@@ -1,20 +1,29 @@
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import HomeScreen from "./src/screens/HomeScreen";
 import TestScreen from "./src/screens/TestScreen";
+import { TestProvider } from "./src/context/TestContext";
 
-const Stack = createStackNavigator();
+const navigator = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Test: TestScreen,
+  },
+  {
+    initialRouteName: "Home",
+    defaultNavigationOptions: {
+      title: "AU Citizen Test",
+    },
+  }
+);
 
-function App() {
+const App = createAppContainer(navigator);
+
+export default () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Test" component={TestScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <TestProvider>
+      <App />
+    </TestProvider>
   );
-}
-
-export default App;
+};
